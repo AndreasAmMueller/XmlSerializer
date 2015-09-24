@@ -1,0 +1,12 @@
+test-nix:
+  script:
+    - php tools/phpunit.phar --verbose tests/XmlSerializerTest
+  tags:
+    - nix
+    - php
+test-win:
+  script:
+    - php tools/phpunit.phar --verbose tests/XmlSerializerTest
+  tags:
+  - windows
+  - php
