@@ -8,14 +8,18 @@ As I tried many different approaches to get a simple to handle XML serializer, I
 
 ```php
 <?php
+
 // include needed class
-// only dependencie is PHP's own SimpleXML
-require_once __DIR__."/XmlSerializer/src/XmlSerializer.php";
+// only dependency is PHP's own SimpleXML
+require_once __DIR__.'/XmlSerializer/src/XmlSerializer.php';
 
 // initialize new XmlSerializer
 $serializer = new AMWD\XmlSerializer();
 
-// create test object
+// explicitly allow associative arrays (Dictionary/Hashtable)
+$serializer->AssociativeArray(true);
+
+// create test objects
 $date = new stdClass();
 $date->year = 2015;
 $date->month = 9;
@@ -26,7 +30,7 @@ $object->firstname = "Andreas";
 $object->lastname = "Mueller";
 $object->today = $date;
 $object->languages = array('C#', 'PHP', '...');
-$object->meetings = array('Breakfast' =>  '09:00', 'Lunch' => '12:30', 'Dinner' => '19:00');
+$object->meetings = array('Breakfast' =>  $date, 'Lunch' => '12:30', 'Dinner' => '19:00');
 
 // serialize test object to XML document
 // flag indicates function to format whitespaces before return
@@ -36,11 +40,13 @@ $xml = $serializer->Serialize($object, true);
 echo $xml.PHP_EOL;
 
 // deserialize XML document back to object
-$obj = $serializer->Deserialize($xml);
+$obj = $serializer->Deserialize($xml, true);
 
 // and print deserialized object
 print_r($obj);
+
 ?>
+
 ```
 
 __Output:__
@@ -60,7 +66,11 @@ __Output:__
   <languages>...</languages>
   <meetings>
     <key>Breakfast</key>
-    <value>09:00</value>
+    <value>
+      <year>2015</year>
+      <month>9</month>
+      <day>25</day>
+    </value>
   </meetings>
   <meetings>
     <key>Lunch</key>
@@ -72,46 +82,51 @@ __Output:__
   </meetings>
 </stdClass>
 
+
+
 SimpleXMLElement Object
 (
-    [firstname] => Andreas
-    [lastname] => Mueller
-    [today] => SimpleXMLElement Object
-        (
-            [year] => 2015
-            [month] => 9
-            [day] => 25
-        )
+  [firstname] => Andreas
+  [lastname] => Mueller
+  [today] => SimpleXMLElement Object
+  (
+    [year] => 2015
+    [month] => 9
+    [day] => 25
+  )
 
-    [languages] => Array
-        (
-            [0] => C#
-            [1] => PHP
-            [2] => ...
-        )
+  [languages] => Array
+  (
+    [0] => C#
+    [1] => PHP
+    [2] => ...
+  )
 
-    [meetings] => Array
-        (
-            [0] => SimpleXMLElement Object
-                (
-                    [key] => Breakfast
-                    [value] => 09:00
-                )
+  [meetings] => Array
+  (
+    [0] => SimpleXMLElement Object
+    (
+      [key] => Breakfast
+      [value] => SimpleXMLElement Object
+      (
+        [year] => 2015
+        [month] => 9
+        [day] => 25
+      )
+    )
 
-            [1] => SimpleXMLElement Object
-                (
-                    [key] => Lunch
-                    [value] => 12:30
-                )
+    [1] => SimpleXMLElement Object
+    (
+      [key] => Lunch
+      [value] => 12:30
+    )
 
-            [2] => SimpleXMLElement Object
-                (
-                    [key] => Dinner
-                    [value] => 19:00
-                )
-
-        )
-
+    [2] => SimpleXMLElement Object
+    (
+      [key] => Dinner
+      [value] => 19:00
+    )
+  )
 )
 ```
 
@@ -120,6 +135,14 @@ As you can see, all the magic stuff will be inside the class and you just need t
 -----
 
 ## Changelog
+
+__2015-10-28__
+
+- Added UnitTest
+- Added Makefile for less work
+- Associative arrays are errors by default
+  * Associative arrays (dictionaries) are difficult to parse
+  * Explicitly enable assoc. arrays with `AssociativeArray(true)`
 
 __2015-09-25__
 

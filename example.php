@@ -1,11 +1,16 @@
 <?php
 
+// include needed class
+// only dependency is PHP's own SimpleXML
 require_once __DIR__.'/src/XmlSerializer.php';
 
 // initialize new XmlSerializer
 $serializer = new AMWD\XmlSerializer();
 
-// create test object
+// explicitly allow associative arrays (Dictionary/Hashtable)
+$serializer->AssociativeArray(true);
+
+// create test objects
 $date = new stdClass();
 $date->year = 2015;
 $date->month = 9;
@@ -16,7 +21,7 @@ $object->firstname = "Andreas";
 $object->lastname = "Mueller";
 $object->today = $date;
 $object->languages = array('C#', 'PHP', '...');
-$object->meetings = array('Breakfast' =>  '09:00', 'Lunch' => '12:30', 'Dinner' => '19:00');
+$object->meetings = array('Breakfast' =>  $date, 'Lunch' => '12:30', 'Dinner' => '19:00');
 
 // serialize test object to XML document
 // flag indicates function to format whitespaces before return
@@ -30,4 +35,5 @@ $obj = $serializer->Deserialize($xml);
 
 // and print deserialized object
 print_r($obj);
+
 ?>
