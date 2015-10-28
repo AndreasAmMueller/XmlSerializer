@@ -1,6 +1,6 @@
 test-nix:
   script:
-    - php tools/phpunit.phar --verbose tests/XmlSerializerTest
+    - make test
   tags:
     - nix
     - php

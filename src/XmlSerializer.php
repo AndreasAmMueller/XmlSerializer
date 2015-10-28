@@ -20,7 +20,7 @@ namespace AMWD;
  * @copyright  (c) 2015 Andreas Mueller
  * @license    MIT - http://am-wd.de/index.php?p=about#license
  * @link       https://bitbucket.org/BlackyPanther/xmlserializer
- * @version    v1.0-20150925 | in developement
+ * @version    v1.0-20151028 | stable; assoc. arrays in developement
  */
 class XmlSerializer {
 
@@ -34,10 +34,22 @@ class XmlSerializer {
 	private $data;
 
 	/**
+	 * Value that indicates whether associative arrays are allowed or not.
+	 *
+	 * Associative arrays are difficult to parse. Therefore they are not supported in C#
+	 * and you need to allow them here manually.
+	 *
+	 * @var bool
+	 */
+	private $AllowAssociativeArray;
+
+	/**
 	 * internal version number
 	 * @var string
 	 */
 	private $version = "1.0";
+
+
 
 	// --- 'magic' methods
 	// ===========================================================================
@@ -51,10 +63,12 @@ class XmlSerializer {
 		if (!class_exists('SimpleXMLElement')) {
 			$trace = debug_backtrace();
 			trigger_error('Missing SimpleXML class in '
-										.$trace[0]['file'].' at row '
-										.$trace[0]['line']
-										, E_USER_ERROR);
+			              .$trace[0]['file'].' at row '
+			              .$trace[0]['line']
+			  , E_USER_ERROR);
 		}
+
+		$this->AssociativeArray(false);
 	}
 
 	/**
@@ -70,10 +84,10 @@ class XmlSerializer {
 
 		$trace = debug_backtrace();
 		trigger_error('Undefined key for __get(): '
-									.$name.' in '
-									.$trace[0]['file'].' at row '
-									.$trace[0]['line']
-				, E_USER_NOTICE);
+		              .$name.' in '
+		              .$trace[0]['file'].' at row '
+		              .$trace[0]['line']
+		  , E_USER_NOTICE);
 
 		return null;
 	}
@@ -117,11 +131,16 @@ class XmlSerializer {
 	 * @return string
 	 */
 	function __toString() {
-		return 'XmlSerializer v'.$this->version.' by AM.WD';
+		return 'XmlSerializer v'.$this->version.' by AM.WD - http://am-wd.de';
 	}
 
+
+
+	// --- Public Methods
+	// ===========================================================================
+
 	/**
-	 * Serializes the specified object and returns the XML docuement as string.
+	 * Serializes the specified object and returns the XML document as string.
 	 *
 	 * @param mixed $obj Object to serialialize.
 	 * @param bool $formatted Set this flag to true if the XML document shold be returned in a formatted way.
@@ -174,6 +193,42 @@ class XmlSerializer {
 		return $xml;
 	}
 
+
+
+	// --- Set/Get Properties
+	// ===========================================================================
+
+	/**
+	 * Enable or disable serialization of associative arrays.
+	 *
+	 * By default serailization of associative arrays (dictionaries) is not allowed.
+	 * It's hard to find a way to parse them and therefore you need to manually enable this feature.
+	 *
+	 * @param bool $flag set to true to enable associative array parsing or false to deny it.
+	 * @return void
+	 */
+	public function AssociativeArray($flag) {
+		if (gettype($flag) == 'boolean') {
+			$this->AllowAssociativeArray = $flag;
+		}
+	}
+
+
+	// --- Protected Methods
+	// ===========================================================================
+
+	/**
+	 * Checks if given array is associative or iterative.
+	 *
+	 * @param array $array Array to check.
+	 *
+	 * @return bool
+	 */
+	protected static function is_assoc($array) {
+		$key = key($array);
+		return !is_int($key);
+	}
+
 	/**
 	 * Serializes an object to XML.
 	 *
@@ -182,7 +237,7 @@ class XmlSerializer {
 	 *
 	 * @return void
 	 */
-	private function SerializeObject($obj, $node) {
+	protected function SerializeObject($obj, $node) {
 		$properties = get_object_vars($obj);
 
 		foreach ($properties as $key => $value) {
@@ -209,15 +264,19 @@ class XmlSerializer {
 	 *
 	 * @return void
 	 */
-	private function SerializeArray($array, $node, $childname = null) {
-		$assoc = $this->is_assoc($array);
+	protected function SerializeArray($array, $node, $childname = null) {
+		$assoc = self::is_assoc($array);
+
+		if ($assoc && !$this->AllowAssociativeArray) {
+			throw new \UnexpectedValueException("Associative arrays are not allowed");
+		}
 
 		foreach ($array as $key => $value) {
 			$name = ($childname == null) ? gettype($value) : $childname;
 
 			if (is_object($value)) {
 				if ($assoc) {
-					$kvp = $node->addChild(get_class($value));
+					$kvp = $node->addChild($name);
 					$kvp->addChild('key', $key);
 					$new = $kvp->addChild('value');
 				} else {
@@ -245,18 +304,6 @@ class XmlSerializer {
 				}
 			}
 		}
-	}
-
-	/**
-	 * Checks if given array is associative or iterative.
-	 *
-	 * @param array $array Array to check.
-	 *
-	 * @return bool
-	 */
-	private function is_assoc($array) {
-		$key = key($array);
-		return !is_int($key);
 	}
 
 }
