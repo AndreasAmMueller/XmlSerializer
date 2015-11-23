@@ -68,7 +68,7 @@ class XmlSerializer {
 			  , E_USER_ERROR);
 		}
 
-		$this->AssociativeArray(false);
+		$this->AllowAssociativeArray(false);
 	}
 
 	/**
@@ -207,7 +207,7 @@ class XmlSerializer {
 	 * @param bool $flag set to true to enable associative array parsing or false to deny it.
 	 * @return void
 	 */
-	public function AssociativeArray($flag) {
+	public function AllowAssociativeArray($flag) {
 		if (gettype($flag) == 'boolean') {
 			$this->AllowAssociativeArray = $flag;
 		}

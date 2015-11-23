@@ -1,0 +1,17 @@
+Please see CHANGELOG at master branch for latest stable version.
+
+2015-11-24
+ - Renamed method from 'AssociativeArray()' to 'AllowAssociativeArray()'
+
+2015-10-28
+ - Added UnitTest
+ - Added Makefile for less work
+ - Associative arrays are errors by default
+ - Associative arrays (dictionaries) are difficult to parse
+ - Explicitly enable assoc. arrays with 'AssociativeArray(true)'
+
+2015-09-25
+ - Initial release
+ - very basic functionality
+ - only 'Serialize()' and 'Deserialize()' available
+ - no properties/configuration possible

@@ -17,7 +17,7 @@ require_once __DIR__.'/XmlSerializer/src/XmlSerializer.php';
 $serializer = new AMWD\XmlSerializer();
 
 // explicitly allow associative arrays (Dictionary/Hashtable)
-$serializer->AssociativeArray(true);
+$serializer->AllowAssociativeArray(true);
 
 // create test objects
 $date = new stdClass();
@@ -136,20 +136,7 @@ As you can see, all the magic stuff will be inside the class and you just need t
 
 ## Changelog
 
-__2015-10-28__
-
-- Added UnitTest
-- Added Makefile for less work
-- Associative arrays are errors by default
-  * Associative arrays (dictionaries) are difficult to parse
-  * Explicitly enable assoc. arrays with `AssociativeArray(true)`
-
-__2015-09-25__
-
-- Initial release
-- very basic functionality
-- only `Serialize()` and `Deserialize()` available
-- no properties/configuration possible
+Changelog can be found [here](CHANGELOG)
 
 -----
 
