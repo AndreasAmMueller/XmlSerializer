@@ -1,17 +1,28 @@
 Please see CHANGELOG at master branch for latest stable version.
 
+2016-07-19
+ - 'AllowAssociativeArray' and 'Formatted' are now public properties.
+ - AllowAssociativeArray replaces the old setter method.
+ - Property 'Formatted' (default: true) indicates a formatted (whitespaces)
+   XML after Serialization.
+ - Added a method 'RebuildAssociative()' to transform the key-value pairs
+   back to an associative array.
+ - 'Serialize()' now can get the name of the root node.
+ - 'Deserialize()' now keeps the name of the root node.
+ - 'GetRootName()' returns the name of the root node from the last deserialization.
+
 2015-11-24
- - Renamed method from 'AssociativeArray()' to 'AllowAssociativeArray()'
+ - Renamed method from 'AssociativeArray()' to 'AllowAssociativeArray()'.
 
 2015-10-28
- - Added UnitTest
- - Added Makefile for less work
- - Associative arrays are errors by default
- - Associative arrays (dictionaries) are difficult to parse
- - Explicitly enable assoc. arrays with 'AssociativeArray(true)'
+ - Added UnitTest.
+ - Added Makefile for less work.
+ - Associative arrays are errors by default.
+ - Associative arrays (dictionaries) are difficult to parse.
+ - Explicitly enable assoc. arrays with 'AssociativeArray(true)'.
 
 2015-09-25
- - Initial release
- - very basic functionality
- - only 'Serialize()' and 'Deserialize()' available
- - no properties/configuration possible
+ - Initial release.
+ - very basic functionality.
+ - only 'Serialize()' and 'Deserialize()' available.
+ - no properties/configuration possible.

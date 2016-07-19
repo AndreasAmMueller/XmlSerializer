@@ -8,7 +8,7 @@ require_once __DIR__.'/src/XmlSerializer.php';
 $serializer = new AMWD\XmlSerializer();
 
 // explicitly allow associative arrays (Dictionary/Hashtable)
-$serializer->AssociativeArray(true);
+$serializer->AllowAssociativeArray = true;
 
 // create test objects
 $date = new stdClass();
@@ -25,7 +25,7 @@ $object->meetings = array('Breakfast' =>  $date, 'Lunch' => '12:30', 'Dinner' =>
 
 // serialize test object to XML document
 // flag indicates function to format whitespaces before return
-$xml = $serializer->Serialize($object, true);
+$xml = $serializer->Serialize($object);
 
 // print out XML document of object
 echo $xml.PHP_EOL;
