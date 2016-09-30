@@ -5,23 +5,23 @@
  * (c) Andreas Mueller <webmaster@am-wd.de>
  */
 
-namespace AMWD;
-require_once __DIR__.'/../src/XmlSerializer.php';
+use PHPUnit\Framework\TestCase;
+use AMWD\XmlSerializer;
 
 /**
  * Test collection to check functionality of Xml Serializer.
  *
  * @package    AMWD
  * @author     Andreas Mueller <webmaster@am-wd.de>
- * @copyright  (c) 2015 Andreas Mueller
+ * @copyright  (c) 2016 Andreas Mueller
  * @link       https://bitbucket.org/BlackyPanther/xmlserializer
  */
-class XmlSerializerTest extends \PHPUnit_Framework_TestCase
+class XmlSerializerTest extends TestCase
 {
 
 	public function testSimpleTest()
 	{
-		$obj = new \stdClass();
+		$obj = new stdClass();
 		$obj->eins = 'one';
 		$obj->zwei = 'two';
 
@@ -44,12 +44,12 @@ class XmlSerializerTest extends \PHPUnit_Framework_TestCase
 		$xml = new XmlSerializer();
 		$xml->Formatted = false;
 		
-		$date = new \stdClass();
+		$date = new stdClass();
 		$date->year = '2015';
 		$date->month = '9';
 		$date->day = '25';
 
-		$object = new \stdClass();
+		$object = new stdClass();
 		$object->firstname = "Andreas";
 		$object->lastname = "Mueller";
 		$object->today = $date;
@@ -63,7 +63,7 @@ class XmlSerializerTest extends \PHPUnit_Framework_TestCase
 			$xml->Serialize($object);
 			$this->assertFalse(true, "Advanced Serialize failed => No Exception thrown on disabled assoc. Arrays.");
 		}
-		catch (\Exception $e)
+		catch (Exception $e)
 		{
 			// Well done
 		}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<phpunit
+	colors="never"
+	stopOnFailure="false"
+	convertErrorsToExceptions="true"
+	convertNoticesToExceptions="false"
+	convertWarningsToExceptions="true"
+	bootstrap="autoload.php"
+	verbose="true">
+	<filter>
+		<blacklist>
+			<directory>.</directory>
+		</blacklist>
+		<whitelist processUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">../src</directory>
+		</whitelist>
+	</filter>
+	<logging>
+		<log type="coverage-text" target="php://stdout" />
+	</logging>
+</phpunit>

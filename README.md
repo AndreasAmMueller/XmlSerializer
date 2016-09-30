@@ -1,6 +1,7 @@
 # XmlSerializer
 
------
+[![build status](https://git.am-wd.de/AM.WD/XmlSerializer/badges/master/build.svg)](https://git.am-wd.de/AM.WD/XmlSerializer/commits/master)
+[![coverage report](https://git.am-wd.de/AM.WD/XmlSerializer/badges/master/coverage.svg)](https://git.am-wd.de/AM.WD/XmlSerializer/commits/master)
 
 As I tried many different approaches to get a simple to handle XML serializer, I had some issues with all of them (I think, I just didn't find the right one) and started to create my own attempt --- inspired by Microsofts [XmlSerializer](https://msdn.microsoft.com/en-us/library/system.xml.serialization.xmlserializer.aspx?cs-save-lang=1&cs-lang=csharp) class.
 
@@ -131,8 +132,6 @@ SimpleXMLElement Object
 
 As you can see, all the magic stuff will be inside the class and you just need to call the simple functions to get it done.
 
------
-
 ## Changelog
 
 Changelog can be found [here](CHANGELOG)
@@ -140,4 +139,5 @@ Changelog can be found [here](CHANGELOG)
 -----
 
 ### LICENSE
+
 My scripts are published under [MIT License](https://am-wd.de/?p=about#license).

@@ -1,12 +1,13 @@
-test-nix:
+image: php:7.0-cli
+
+before_script:
+  - pecl install xdebug > /dev/null
+  - echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" | tee /usr/local/etc/php/conf.d/xdebug.ini
+  - apt-get -qq -y install curl
+  - curl -sSL -o ./vendor/phpunit.phar "https://phar.phpunit.de/phpunit.phar"
+
+PHPUnitTests:
   script:
-    - make test
+    - php vendor/phpunit.phar -c vendor/phpunit.whitelist.xml tests/
   tags:
-    - nix
-    - php
-test-win:
-  script:
-    - php tools/phpunit.phar --verbose tests/XmlSerializerTest
-  tags:
-  - windows
-  - php
+    - docker
